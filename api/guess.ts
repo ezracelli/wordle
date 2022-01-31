@@ -13,7 +13,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 
 const WORDS = new Set([...ANSWERS, ...NONANSWERS]);
 
-export const handler = async (
+export default async (
     req: IncomingMessage,
     res: ServerResponse,
     next: (err?: unknown) => void,

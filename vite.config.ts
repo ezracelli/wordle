@@ -32,11 +32,11 @@ export default defineConfig({
                                 handlerFilePath,
                             );
 
-                            const { handler } =
+                            const { default: handler } =
                                 (await viteDevServer.ssrLoadModule(
                                     `/@fs/${handlerFilePathResolved}`,
                                 )) as {
-                                    handler: NextHandleFunction;
+                                    default: NextHandleFunction;
                                 };
 
                             app.use((req, res, next) => {
