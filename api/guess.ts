@@ -1,10 +1,10 @@
-import { getAnswerIndex, useParsedBody } from "~/lib/api";
+import { getAnswerIndex, useParsedBody } from "../lib/api";
 import {
     GuessError,
     GuessLetterResult,
     GuessStatus,
     GUESS_LETTER_COUNT,
-} from "~/lib/constants";
+} from "../lib/constants";
 
 import ANSWERS from "../data/answers.json";
 import NONANSWERS from "../data/nonanswers.json";
