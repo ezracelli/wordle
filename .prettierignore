@@ -1,8 +1,4 @@
-/.vercel_build_output
-/build
 /data
 /dist
-/node_modules
 
-/package.json
 /package-lock.json

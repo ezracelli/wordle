@@ -37,8 +37,8 @@
         // "checkJs": true,
         // "maxNodeModuleJsDepth": 1,
 
-        // "declaration": true,
-        // "declarationMap": true,
+        "declaration": true,
+        "declarationMap": true,
         // "emitDeclarationOnly": true,
         "sourceMap": true,
         // "outFile": "./",
@@ -62,8 +62,8 @@
         // "preserveValueImports": true,
 
         "isolatedModules": true,
-        "allowSyntheticDefaultImports": true,
-        // "esModuleInterop": true ,
+        // "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
         // "preserveSymlinks": true,
         "forceConsistentCasingInFileNames": true,
 
@@ -89,8 +89,5 @@
 
         // "skipDefaultLibCheck": true,
         "skipLibCheck": true
-    },
-    "ts-node": {
-        "transpileOnly": true
     }
 }

@@ -1,9 +1,9 @@
 import { useBody } from ".";
 
-import type { Request } from "vite-plugin-mix";
+import type { IncomingMessage } from "node:http";
 
 export const useParsedBody = async (
-    req: Request,
+    req: IncomingMessage,
 ): Promise<
     | {
           data: URLSearchParams;

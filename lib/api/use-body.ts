@@ -1,7 +1,7 @@
-import type { Request } from "vite-plugin-mix";
+import type { IncomingMessage } from "node:http";
 
 export const useBody = async (
-    req: Request,
+    req: IncomingMessage,
 ): Promise<
     | {
           data: Uint8Array;

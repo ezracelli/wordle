@@ -1,5 +1,4 @@
-/.vercel_build_output
-/build
 /data
 /dist
+
 /node_modules

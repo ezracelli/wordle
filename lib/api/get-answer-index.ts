@@ -1,8 +1,4 @@
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-
-const mt19937 = require("@stdlib/random-base-mt19937");
+import mt19937 from "@stdlib/random-base-mt19937";
 
 const getSeed = (now: Date) =>
     Number(

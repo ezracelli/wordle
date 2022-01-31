@@ -9,28 +9,33 @@ import {
 import ANSWERS from "../../data/answers.json";
 import NONANSWERS from "../../data/nonanswers.json";
 
-import type { Handler } from "vite-plugin-mix";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
 const WORDS = new Set([...ANSWERS, ...NONANSWERS]);
 
-export const handler: Handler = async (req, res, next) => {
-    if (req.path !== "/api/guess") return next();
+export const handler = async (
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: unknown) => void,
+): Promise<void> => {
+    const url = new URL(req.url ?? "/", "http://localhost");
+    if (url.pathname !== "/api/guess") return next();
 
     const body = await useParsedBody(req);
     if (body.status === "error") {
         res.statusCode = body.statusCode;
-        return res.end();
+        return void res.end();
     }
 
     const guess = body.data.get("guess");
     if (guess === null) {
         res.statusCode === 422;
-        return res.end();
+        return void res.end();
     }
 
     if (guess.length < GUESS_LETTER_COUNT) {
         res.statusCode = 200;
-        return res.end(
+        return void res.end(
             JSON.stringify({
                 error: GuessError.NOT_ENOUGH_LETTERS,
                 status: GuessStatus.ERROR,
@@ -40,7 +45,7 @@ export const handler: Handler = async (req, res, next) => {
 
     if (guess.length > GUESS_LETTER_COUNT) {
         res.statusCode = 200;
-        return res.end(
+        return void res.end(
             JSON.stringify({
                 error: GuessError.TOO_MANY_LETTERS,
                 status: GuessStatus.ERROR,
@@ -50,7 +55,7 @@ export const handler: Handler = async (req, res, next) => {
 
     if (!WORDS.has(guess)) {
         res.statusCode = 200;
-        return res.end(
+        return void res.end(
             JSON.stringify({
                 error: GuessError.NOT_A_WORD,
                 status: GuessStatus.ERROR,
@@ -62,7 +67,7 @@ export const handler: Handler = async (req, res, next) => {
     const answer = ANSWERS[answerIndex]!;
 
     res.statusCode = 200;
-    return res.end(
+    return void res.end(
         JSON.stringify({
             data: guess.split("").map((letter, i) => {
                 if (answer.indexOf(letter) === i)
