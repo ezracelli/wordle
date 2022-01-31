@@ -51,7 +51,7 @@ export default defineConfig({
                     });
                 },
             };
-        })({ handlerFilePath: "src/api/guess.ts" }),
+        })({ handlerFilePath: "./api/guess.ts" }),
     ],
     resolve: {
         alias: {

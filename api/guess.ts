@@ -6,8 +6,8 @@ import {
     GUESS_LETTER_COUNT,
 } from "~/lib/constants";
 
-import ANSWERS from "../../data/answers.json";
-import NONANSWERS from "../../data/nonanswers.json";
+import ANSWERS from "../data/answers.json";
+import NONANSWERS from "../data/nonanswers.json";
 
 import type { IncomingMessage, ServerResponse } from "node:http";
 
