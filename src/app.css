@@ -1,0 +1,111 @@
+@import "open-color/open-color.css";
+
+body {
+    background-color: var(--oc-gray-9);
+    color: var(--oc-gray-2);
+}
+
+.guesses {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.guess {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+@keyframes wiggle {
+    10%,
+    90% {
+        transform: translateX(-1px);
+    }
+
+    20%,
+    80% {
+        transform: translateX(2px);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translateX(-4px);
+    }
+
+    40%,
+    60% {
+        transform: translateX(4px);
+    }
+}
+
+.guess--animation--wiggle {
+    animation: wiggle 0.6s;
+}
+
+.letter {
+    align-items: center;
+    border: 2px solid var(--oc-gray-7);
+    display: flex;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    height: 3.25rem;
+    justify-content: center;
+    padding: 0.25rem;
+    text-transform: uppercase;
+    width: 3.25rem;
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.letter--animation--bounce {
+    animation: bounce 0.1s;
+}
+
+@keyframes flip {
+    0% {
+        transform: rotate3d(1, 0, 0, 0);
+    }
+
+    50% {
+        transform: rotate3d(1, 0, 0, 90deg);
+    }
+
+    100% {
+        transform: rotate3d(1, 0, 0, 0);
+    }
+}
+
+.letter--animation--flip {
+    animation: flip 0.5s ease-in-out;
+}
+
+.letter--correct {
+    background-color: rgba(var(--oc-green-8-rgb), 0.75);
+    border-color: transparent;
+}
+
+.letter--incorrect {
+    background-color: var(--oc-gray-8);
+    border-color: transparent;
+}
+
+.letter--incorrect-location {
+    background-color: rgba(var(--oc-yellow-4-rgb), 0.75);
+    border-color: transparent;
+}
