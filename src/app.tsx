@@ -17,6 +17,7 @@ import {
     GuessStatus,
     GUESS_COUNT,
     GUESS_LETTER_COUNT,
+    QUERTY_KEYBOARD,
 } from "~/lib/constants";
 import { useQuery } from "~/lib/hooks";
 import * as actions from "~/lib/store/actions";
@@ -72,6 +73,14 @@ export const App = (): JSX.Element => {
     const dispatch = useAppDispatch();
     const { currentGuessIndex, currentGuessLetterIndex, guesses } =
         useAppSelector((state) => state);
+
+    const usedLetters = new Set(
+        guesses
+            .slice(0, currentGuessIndex)
+            .map((guess) => guess.letters.map((letter) => letter.value))
+            .flat()
+            .filter((letter): letter is string => letter !== null),
+    );
 
     const isMaxGuesses = currentGuessIndex === GUESS_COUNT;
     const isMaxGuessLetters = currentGuessLetterIndex === GUESS_LETTER_COUNT;
@@ -319,58 +328,114 @@ export const App = (): JSX.Element => {
     ]);
 
     return (
-        <div class="guesses">
-            {makeTuple(GUESS_COUNT, (guessIndex) => (
-                <div
-                    class={cx("guesses__guess guess", {
-                        "guess--animation--wiggle":
-                            guesses[guessIndex].animation ===
-                            GuessAnimation.Wiggle,
-                    })}
-                    ref={(element) => {
-                        guessRefs.current[guessIndex] = element;
-                    }}
-                >
-                    {makeTuple(GUESS_LETTER_COUNT, (guessLetterIndex) => (
-                        <div
-                            class={cx("guess__letter letter", {
-                                "letter--animation--bounce":
+        <>
+            <header class="header">
+                <h1 class="header__title">WORDLE</h1>
+            </header>
+            <div class="guesses">
+                {makeTuple(GUESS_COUNT, (guessIndex) => (
+                    <div
+                        class={cx("guesses__guess guess", {
+                            "guess--animation--wiggle":
+                                guesses[guessIndex].animation ===
+                                GuessAnimation.Wiggle,
+                        })}
+                        ref={(element) => {
+                            guessRefs.current[guessIndex] = element;
+                        }}
+                    >
+                        {makeTuple(GUESS_LETTER_COUNT, (guessLetterIndex) => (
+                            <div
+                                class={cx("guess__letter letter", {
+                                    "letter--animation--bounce":
+                                        guesses[guessIndex].letters[
+                                            guessLetterIndex
+                                        ].animation ===
+                                        GuessLetterAnimation.Bounce,
+                                    "letter--animation--flip":
+                                        guesses[guessIndex].letters[
+                                            guessLetterIndex
+                                        ].animation ===
+                                        GuessLetterAnimation.Flip,
+                                    "letter--correct":
+                                        guesses[guessIndex].letters[
+                                            guessLetterIndex
+                                        ].result === GuessLetterResult.CORRECT,
+                                    "letter--incorrect":
+                                        guesses[guessIndex].letters[
+                                            guessLetterIndex
+                                        ].result ===
+                                        GuessLetterResult.NOT_IN_WORD,
+                                    "letter--incorrect-location":
+                                        guesses[guessIndex].letters[
+                                            guessLetterIndex
+                                        ].result ===
+                                        GuessLetterResult.INCORRECT_LOCATION,
+                                })}
+                                key={`${guessIndex}.${guessLetterIndex}`}
+                                ref={(element) => {
+                                    guessLetterRefs.current[guessIndex][
+                                        guessLetterIndex
+                                    ] = element;
+                                }}
+                            >
+                                {
                                     guesses[guessIndex].letters[
                                         guessLetterIndex
-                                    ].animation === GuessLetterAnimation.Bounce,
-                                "letter--animation--flip":
-                                    guesses[guessIndex].letters[
-                                        guessLetterIndex
-                                    ].animation === GuessLetterAnimation.Flip,
-                                "letter--correct":
-                                    guesses[guessIndex].letters[
-                                        guessLetterIndex
-                                    ].result === GuessLetterResult.CORRECT,
-                                "letter--incorrect":
-                                    guesses[guessIndex].letters[
-                                        guessLetterIndex
-                                    ].result === GuessLetterResult.NOT_IN_WORD,
-                                "letter--incorrect-location":
-                                    guesses[guessIndex].letters[
-                                        guessLetterIndex
-                                    ].result ===
-                                    GuessLetterResult.INCORRECT_LOCATION,
-                            })}
-                            key={`${guessIndex}.${guessLetterIndex}`}
-                            ref={(element) => {
-                                guessLetterRefs.current[guessIndex][
-                                    guessLetterIndex
-                                ] = element;
-                            }}
-                        >
-                            {
-                                guesses[guessIndex].letters[guessLetterIndex]
-                                    .value
-                            }
-                        </div>
-                    ))}
-                </div>
-            ))}
-        </div>
+                                    ].value
+                                }
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+            <div class="keyboard">
+                {QUERTY_KEYBOARD.map((row, rowIndex) => (
+                    <div class="keyboard__row" key={rowIndex}>
+                        {rowIndex === 2 && (
+                            <button
+                                class="keyboard__letter keyboard__letter--enter"
+                                onClick={() => tryPushGuess()}
+                            >
+                                Enter
+                            </button>
+                        )}
+                        {row.map((letter, letterIndex) => (
+                            <button
+                                class={cx("keyboard__letter", {
+                                    "keyboard__letter--used":
+                                        usedLetters.has(letter),
+                                })}
+                                key={letterIndex}
+                                onClick={() =>
+                                    tryPushLetterToCurrentGuess(letter)
+                                }
+                            >
+                                {letter}
+                            </button>
+                        ))}
+                        {rowIndex === 2 && (
+                            <button
+                                aria-label="Backspace"
+                                class="keyboard__letter keyboard__letter--backspace"
+                                onClick={() => tryPopLetterFromCurrentGuess()}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
