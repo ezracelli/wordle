@@ -74,10 +74,16 @@ export const App = (): JSX.Element => {
     const { currentGuessIndex, currentGuessLetterIndex, guesses } =
         useAppSelector((state) => state);
 
-    const usedLetters = new Set(
+    const incorrectLetters = new Set(
         guesses
             .slice(0, currentGuessIndex)
-            .map((guess) => guess.letters.map((letter) => letter.value))
+            .map((guess) =>
+                guess.letters
+                    .filter(
+                        (letter) => letter.result !== GuessLetterResult.CORRECT,
+                    )
+                    .map((letter) => letter.value),
+            )
             .flat()
             .filter((letter): letter is string => letter !== null),
     );
@@ -406,8 +412,8 @@ export const App = (): JSX.Element => {
                         {row.map((letter, letterIndex) => (
                             <button
                                 class={cx("keyboard__letter", {
-                                    "keyboard__letter--used":
-                                        usedLetters.has(letter),
+                                    "keyboard__letter--incorrect":
+                                        incorrectLetters.has(letter),
                                 })}
                                 key={letterIndex}
                                 onClick={(e) => {

@@ -116,7 +116,7 @@ body {
     background-color: rgba(var(--oc-gray-7-rgb), 0.8);
 }
 
-.keyboard__letter--used {
+.keyboard__letter--incorrect {
     background-color: rgba(var(--oc-gray-7-rgb), 0.8);
 }
 
