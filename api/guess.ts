@@ -70,8 +70,7 @@ export default async (
     return void res.end(
         JSON.stringify({
             data: guess.split("").map((letter, i) => {
-                if (answer.indexOf(letter) === i)
-                    return GuessLetterResult.CORRECT;
+                if (answer[i] === letter) return GuessLetterResult.CORRECT;
                 if (answer.includes(letter))
                     return GuessLetterResult.INCORRECT_LOCATION;
                 return GuessLetterResult.NOT_IN_WORD;
