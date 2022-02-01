@@ -395,7 +395,10 @@ export const App = (): JSX.Element => {
                         {rowIndex === 2 && (
                             <button
                                 class="keyboard__letter keyboard__letter--enter"
-                                onClick={() => tryPushGuess()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    tryPushGuess();
+                                }}
                             >
                                 Enter
                             </button>
@@ -407,9 +410,10 @@ export const App = (): JSX.Element => {
                                         usedLetters.has(letter),
                                 })}
                                 key={letterIndex}
-                                onClick={() =>
-                                    tryPushLetterToCurrentGuess(letter)
-                                }
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    tryPushLetterToCurrentGuess(letter);
+                                }}
                             >
                                 {letter}
                             </button>
@@ -418,7 +422,10 @@ export const App = (): JSX.Element => {
                             <button
                                 aria-label="Backspace"
                                 class="keyboard__letter keyboard__letter--backspace"
-                                onClick={() => tryPopLetterFromCurrentGuess()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    tryPopLetterFromCurrentGuess();
+                                }}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
