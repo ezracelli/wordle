@@ -80,7 +80,9 @@ export const App = (): JSX.Element => {
             .map((guess) =>
                 guess.letters
                     .filter(
-                        (letter) => letter.result !== GuessLetterResult.CORRECT,
+                        (letter) =>
+                            letter.result !== null &&
+                            letter.result === GuessLetterResult.NOT_IN_WORD,
                     )
                     .map((letter) => letter.value),
             )
