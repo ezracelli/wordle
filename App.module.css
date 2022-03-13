@@ -1,0 +1,44 @@
+.App__h1 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.App__header {
+    border-bottom: 2px solid var(--oc-gray-7);
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+@media screen and (min-width: 425px) {
+    .App__header {
+        margin-bottom: 2.5rem;
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .App__header {
+        margin-bottom: 5.5rem;
+    }
+}
+
+.App__guesses {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.App__statistics-trigger {
+    background: none;
+    border: none;
+    color: inherit;
+    height: 30px;
+    padding: 3px;
+    position: absolute;
+    right: 12px;
+    top: calc(1.1rem - 15px);
+    width: 30px;
+}

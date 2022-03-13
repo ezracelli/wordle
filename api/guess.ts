@@ -1,81 +1,29 @@
-import { getAnswerIndex, useParsedBody } from "../lib/api";
-import {
-    GuessError,
-    GuessLetterResult,
-    GuessStatus,
-    GUESS_LETTER_COUNT,
-} from "../lib/constants";
+import { isValidTimeZone, getAnswer, getGuessResult } from "../lib/api";
 
-import ANSWERS from "../data/answers.json";
-import NONANSWERS from "../data/nonanswers.json";
+import type { VercelApiHandler } from "@vercel/node";
 
-import type { IncomingMessage, ServerResponse } from "node:http";
-
-const WORDS = new Set([...ANSWERS, ...NONANSWERS]);
-
-export default async (
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (err?: unknown) => void,
-): Promise<void> => {
-    const url = new URL(req.url ?? "/", "http://localhost");
-    if (url.pathname !== "/api/guess") return next();
-
-    const body = await useParsedBody(req);
-    if (body.status === "error") {
-        res.statusCode = body.statusCode;
-        return void res.end();
+const handler: VercelApiHandler = (req, res) => {
+    if (req.method !== "POST") {
+        res.status(405).end();
+        return;
     }
 
-    const guess = body.data.get("guess");
-    if (guess === null) {
-        res.statusCode === 422;
-        return void res.end();
+    const { guess, tz = "America/New_York" } = req.body;
+
+    if (
+        typeof tz !== "string" ||
+        !isValidTimeZone(tz) ||
+        typeof guess !== "string"
+    ) {
+        res.status(400).end();
+        return;
     }
 
-    if (guess.length < GUESS_LETTER_COUNT) {
-        res.statusCode = 200;
-        return void res.end(
-            JSON.stringify({
-                error: GuessError.NOT_ENOUGH_LETTERS,
-                status: GuessStatus.ERROR,
-            }),
-        );
-    }
+    const answer = getAnswer(tz);
+    console.log({ answer });
 
-    if (guess.length > GUESS_LETTER_COUNT) {
-        res.statusCode = 200;
-        return void res.end(
-            JSON.stringify({
-                error: GuessError.TOO_MANY_LETTERS,
-                status: GuessStatus.ERROR,
-            }),
-        );
-    }
-
-    if (!WORDS.has(guess)) {
-        res.statusCode = 200;
-        return void res.end(
-            JSON.stringify({
-                error: GuessError.NOT_A_WORD,
-                status: GuessStatus.ERROR,
-            }),
-        );
-    }
-
-    const answerIndex = getAnswerIndex(ANSWERS.length);
-    const answer = ANSWERS[answerIndex]!;
-
-    res.statusCode = 200;
-    return void res.end(
-        JSON.stringify({
-            data: guess.split("").map((letter, i) => {
-                if (answer[i] === letter) return GuessLetterResult.CORRECT;
-                if (answer.includes(letter))
-                    return GuessLetterResult.INCORRECT_LOCATION;
-                return GuessLetterResult.NOT_IN_WORD;
-            }),
-            status: GuessStatus.SUCCESS,
-        }),
-    );
+    res.send(getGuessResult(guess, answer));
+    return;
 };
+
+export default handler;

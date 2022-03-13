@@ -1,0 +1,124 @@
+.StatisticsModal__bottom {
+    display: flex;
+    margin-top: 1.5rem;
+}
+
+.StatisticsModal__bottom > * {
+    align-items: center;
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.StatisticsModal__bottom > :first-child {
+    border-right: 1px solid currentColor;
+    padding-right: 1.5rem;
+}
+
+.StatisticsModal__bottom > :last-child {
+    padding-left: 1.5rem;
+}
+
+.StatisticsModal__countdown {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.StatisticsModal__distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}
+
+.StatisticsModal__distribution-row {
+    display: flex;
+}
+
+.StatisticsModal__distribution-row-label {
+    align-items: center;
+    display: flex;
+    font-size: 0.85rem;
+    text-align: right;
+    width: 0.85rem;
+}
+
+.StatisticsModal__distribution-row-value {
+    background-color: var(--oc-gray-7);
+    font-size: 0.85rem;
+    font-weight: bolder;
+    min-width: fit-content;
+    padding: 0.15rem 0.35rem;
+    text-align: right;
+}
+
+.StatisticsModal__distribution-row-value--winning {
+    background-color: rgba(var(--oc-green-8-rgb), 0.75);
+}
+
+.StatisticsModal__section-title {
+    font-size: 0.85rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.StatisticsModal__section-title--bottom {
+    margin-bottom: 0.5rem;
+}
+
+.StatisticsModal__share-button {
+    align-items: center;
+    background-color: rgba(var(--oc-green-8-rgb), 0.75);
+    border: none;
+    border-radius: 0.15rem;
+    color: inherit;
+    display: inline-flex;
+    font-size: 1.15rem;
+    font-weight: bolder;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    text-transform: uppercase;
+    transition: filter 0.15s;
+}
+
+.StatisticsModal__share-button span {
+    display: none;
+}
+
+@media screen and (min-width: 376px) {
+    .StatisticsModal__share-button span {
+        display: initial;
+    }
+}
+
+.StatisticsModal__share-button:active {
+    filter: brightness(0.85);
+}
+
+.StatisticsModal__statistics {
+    justify-content: center;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.StatisticsModal__statistic {
+    display: flex;
+    flex: 0 0 15%;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.StatisticsModal__statistic-label {
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.StatisticsModal__statistic-value {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+}

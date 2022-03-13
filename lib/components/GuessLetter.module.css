@@ -1,0 +1,72 @@
+@keyframes flip {
+    0% {
+        transform: rotate3d(1, 0, 0, 0);
+    }
+
+    50% {
+        transform: rotate3d(1, 0, 0, 90deg);
+    }
+
+    100% {
+        transform: rotate3d(1, 0, 0, 0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.GuessLetter {
+    align-items: center;
+    aspect-ratio: 1;
+    border: 2px solid var(--oc-gray-8);
+    display: flex;
+    font-size: 1.75rem;
+    font-weight: 700;
+    justify-content: center;
+    text-transform: uppercase;
+    width: 3.75rem;
+}
+
+@media screen and (min-width: 425px) {
+    .GuessLetter {
+        width: 4rem;
+    }
+}
+
+.GuessLetter:not(:empty) {
+    border-color: var(--oc-gray-7);
+}
+
+.GuessLetter--animation-pulse {
+    animation: pulse 0.15s ease-in-out;
+}
+
+.GuessLetter--animation-flip {
+    animation: flip 0.35s ease-in-out;
+}
+
+.GuessLetter--result-ok {
+    background-color: rgba(var(--oc-green-8-rgb), 0.75);
+    border-color: transparent !important;
+}
+
+.GuessLetter--result-err.GuessLetter--error-incorrect-position {
+    background-color: rgba(var(--oc-yellow-4-rgb), 0.75);
+    border-color: transparent !important;
+}
+
+.GuessLetter--result-err.GuessLetter--error-not-in-word {
+    background-color: var(--oc-gray-8);
+    border-color: transparent !important;
+}

@@ -1,0 +1,52 @@
+.Keyboard {
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px;
+    position: fixed;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+.Keyboard__letter {
+    background-color: var(--oc-gray-6);
+    border: none;
+    border-radius: 0.15rem;
+    color: inherit;
+    height: 3.5rem;
+    font-weight: bolder;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    flex: 0 0 calc(100% / 10 - (0.25rem * (9 / 10)));
+}
+
+.Keyboard__letter--backspace,
+.Keyboard__letter--enter {
+    flex: 0 0 calc((100% / 10 - (0.25rem * (9 / 10))) * 1.5);
+    font-size: 0.65rem;
+}
+
+.Keyboard__letter--result-ok {
+    background-color: rgba(var(--oc-green-8-rgb), 0.75);
+}
+
+.Keyboard__letter--result-err.Keyboard__letter--error-incorrect-position {
+    background-color: rgba(var(--oc-yellow-4-rgb), 0.75);
+}
+
+.Keyboard__letter--result-err.Keyboard__letter--error-not-in-word {
+    background-color: var(--oc-gray-8);
+}
+
+.Keyboard__row {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+}
