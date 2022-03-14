@@ -36,7 +36,10 @@ if (container) {
     );
 }
 
-let today = new Date().toISOString().split("T")[0]!;
+const now = new Date();
+let today = new Date(now.valueOf() - now.getTimezoneOffset() * 60 * 1000)
+    .toISOString()
+    .split("T")[0]!;
 
 const appState = JSON.parse(
     window.localStorage.getItem(LOCALSTORAGE_KEY_STATE) ?? "null",
@@ -62,7 +65,11 @@ if (
 }
 
 setInterval(() => {
-    const today_ = new Date().toISOString().split("T")[0]!;
+    const now = new Date();
+    const today_ = new Date(now.valueOf() - now.getTimezoneOffset() * 60 * 1000)
+        .toISOString()
+        .split("T")[0]!;
+
     if (today_ !== today) {
         today = today_;
 
